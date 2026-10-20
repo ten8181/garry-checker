@@ -1,0 +1,137 @@
+:root{--g:#79EB92;--b:#4A3B36;--w:#FFFFFF;--c:#FBF7EC}
+*{box-sizing:border-box}
+body{margin:0;background:var(--c);color:var(--b);font-family:"Hiragino Maru Gothic ProN","M PLUS Rounded 1c","Noto Sans JP",sans-serif;padding:16px 16px calc(24px + env(safe-area-inset-bottom));max-width:640px;margin-inline:auto;
+background-image:radial-gradient(var(--g) 1.5px,transparent 1.5px);background-size:22px 22px}
+.sticker{background:var(--w);border:3px solid var(--b);border-radius:18px;box-shadow:4px 4px 0 var(--b)}
+.top{text-align:center;margin-bottom:14px}
+.logo{display:inline-block;background:var(--g);font-weight:900;font-size:28px;letter-spacing:.06em;padding:8px 20px;transform:rotate(-2deg)}
+.sub{margin:10px 0;font-weight:700;font-size:14px}
+.progress{padding:10px 14px;font-weight:800;text-align:left}
+.bar{height:12px;border:2px solid var(--b);border-radius:99px;margin-top:6px;overflow:hidden;background:var(--c)}
+.bar i{display:block;height:100%;width:0;background:var(--g);transition:width .3s}
+.tabs{display:flex;gap:8px;margin:14px 0 8px}
+.tab{flex:1;font:inherit;font-weight:800;padding:9px;border:3px solid var(--b);border-radius:99px;background:var(--w);color:var(--b);box-shadow:3px 3px 0 var(--b);cursor:pointer}
+.tab[aria-pressed=true]{background:var(--g);transform:translate(2px,2px);box-shadow:1px 1px 0 var(--b)}
+.toggle{display:block;font-size:14px;font-weight:700;margin:6px 4px 12px}
+.toggle input{accent-color:var(--b)}
+.day{font-weight:900;font-size:15px;margin:18px 4px 8px;display:flex;align-items:center;gap:8px}
+.day::after{content:"";flex:1;border-top:2px dashed var(--b)}
+.card{padding:14px 14px 12px;margin-bottom:14px;position:relative}
+.card:nth-child(odd){transform:rotate(-.6deg)}.card:nth-child(even){transform:rotate(.5deg)}
+
+
+.tag{position:absolute;top:-12px;right:14px;background:var(--g);border:3px solid var(--b);border-radius:99px;padding:2px 12px;font-size:12px;font-weight:900;transform:rotate(4deg)}
+.time{font-weight:900;font-size:14px}
+.ttl{font-size:19px;font-weight:900;margin:4px 0 2px}
+.meta{font-size:13px;font-weight:700;opacity:.85}
+.det{font-size:13px;margin:6px 0 0;line-height:1.55}
+.tasks{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{font:inherit;font-size:14px;font-weight:800;padding:7px 14px;border:3px solid var(--b);border-radius:99px;background:var(--w);color:var(--b);cursor:pointer}
+.chip[aria-pressed=true]{background:var(--g)}
+.chip[aria-pressed=true]::before{content:"✓ "}
+.acts{display:flex;gap:8px;margin-top:10px;align-items:center}
+.link,.memo{font:inherit;font-size:13px;font-weight:800;color:var(--b);background:none;border:none;border-bottom:2px solid var(--b);padding:2px 0;cursor:pointer;text-decoration:none}
+.memoPrev{font-size:12px;background:var(--c);border:2px dashed var(--b);border-radius:10px;padding:6px 8px;margin-top:8px;white-space:pre-wrap;word-break:break-all}
+.empty{text-align:center;font-weight:800;padding:30px}
+.foot{margin-top:24px;display:grid;gap:10px;text-align:center}
+.btn{display:block;font:inherit;font-weight:800;padding:11px;border:3px solid var(--b);border-radius:14px;background:var(--g);color:var(--b);box-shadow:3px 3px 0 var(--b);cursor:pointer}
+.btn.ghost{background:var(--w)}
+.note{font-size:12px;line-height:1.6}
+dialog{width:min(92vw,520px);padding:16px;color:var(--b)}
+dialog::backdrop{background:rgba(74,59,54,.45)}
+dialog h2{font-size:17px;margin:0 0 10px}
+textarea{width:100%;font:inherit;font-size:15px;border:3px solid var(--b);border-radius:12px;padding:10px;background:var(--c);color:var(--b);resize:vertical}
+.count{text-align:right;font-size:12px;font-weight:700;margin:4px 0 10px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);padding:10px 18px;font-weight:800;background:var(--g)}
+/* 元のステッカーデザインを維持した読み込み・設定UI */
+.tabs{flex-wrap:wrap}.tab{flex:1 0 auto;min-height:44px}
+#settingsForm label{display:block;font-size:14px;font-weight:800;margin:14px 0 6px}
+#settingsForm input{width:100%;font:inherit;font-size:16px;border:3px solid var(--b);border-radius:12px;padding:10px;background:var(--c);color:var(--b)}
+.help,.disclaimer{font-size:14px;line-height:1.65}.disclaimer{text-align:center;margin-top:24px}
+#settingsError{font-size:14px;line-height:1.5;overflow-wrap:anywhere}
+button:disabled{opacity:.6;cursor:wait}
+.ttl,.meta,.det,dialog h2{overflow-wrap:anywhere}.det{white-space:pre-wrap}
+.tag{max-width:75%;overflow-wrap:anywhere}.card{padding-top:20px}
+button,a,input,textarea{touch-action:manipulation}
+.chip,.memo,.link{min-height:44px;display:inline-flex;align-items:center}
+:focus-visible{outline:3px solid var(--b);outline-offset:4px}
+dialog{max-height:90dvh;overflow-y:auto}.toast{max-width:90vw;z-index:5;text-align:center}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+.chip[data-status="0"][aria-pressed=true]{background:var(--c);border-style:dashed}
+.chip[data-status="0"][aria-pressed=true]::before{content:""}
+.tasks{padding-top:2px}
+
+/* 出演カードを主役に。補助操作は最下部にまとめる。 */
+.foot{margin-top:32px;padding-top:20px;border-top:1px solid #4A3B3640;gap:4px}
+.note{font-size:14px;margin:0 0 8px}
+.sourceLine{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;column-gap:12px}
+.sourceLine p{font-size:14px;line-height:1.6;margin:0;overflow-wrap:anywhere}
+.quietLink{display:inline-flex;align-items:center;justify-content:center;min-height:44px;font:inherit;font-size:14px;font-weight:700;color:var(--b);background:none;border:0;padding:8px 2px;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+.utilityLinks{display:flex;flex-wrap:wrap;justify-content:center;gap:0 18px}
+.backupActions{display:grid;gap:12px}.importLabel{text-align:center}
+.fileInput{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.importLabel:has(+.fileInput:focus-visible){outline:3px solid var(--b);outline-offset:4px}
+.disclaimer{margin-top:16px}.sourceLine button{white-space:nowrap}
+
+/* Compact cards: title, context, progress, personal memo. */
+.card{padding:12px;margin-bottom:12px;border-radius:14px;box-shadow:3px 3px 0 var(--b)}
+.card:nth-child(odd),.card:nth-child(even){transform:none}
+.cardHead{display:flex;align-items:flex-start;gap:8px;justify-content:space-between}
+.ttl{font-size:17px;line-height:1.45;margin:0;font-weight:900;min-width:0}
+.badges{display:flex;align-items:center;gap:4px;flex-shrink:0;padding-top:2px}
+.tag{position:static;display:inline-flex;align-items:center;gap:4px;transform:none;max-width:none;white-space:nowrap;font-size:11px;padding:3px 7px;border-width:2px;background:var(--w);line-height:1.2}
+.tag svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tagTv{background:#E4F0F7}.tagMagazine{background:#FAE7DC}
+.det{font-size:13px;line-height:1.55;margin:5px 0 0}
+.tasks{gap:6px;margin-top:8px;padding:0}
+.chip{font-size:13px;min-height:44px;padding:7px 10px;border-width:2px}
+.chip[data-status="0"][aria-pressed=true]{border-style:solid;background:var(--c)}
+.acts{margin-top:2px}.memo,.link{font-size:13px;min-height:40px;border:0;text-decoration:underline;text-underline-offset:4px}
+.day{font-size:14px;margin:16px 2px 6px}.day::after{border-top-width:1px}
+.card.done{background:#E7F7DC}.card.done .ttl{text-decoration:none}
+.foot{margin-top:24px;padding-top:12px;gap:0}
+.note,.sourceLine p,.quietLink,.disclaimer{font-size:12px;line-height:1.5}
+.note{margin:0}.sourceLine{column-gap:8px}.sourceLine p:empty{display:none}
+.utilityLinks{gap:0 14px}.quietLink{padding:4px 2px;min-height:36px}
+.disclaimer{margin:8px 0 0}.sourceLine:has(#sourceStatus:not(:empty)){margin:4px 0}
+.sourceLine:has(#sourceStatus:not(:empty)) p{font-size:13px;font-weight:700}
+
+.scheduleSection{margin:22px 0 28px;padding-top:40px}
+.sectionTitle{font-size:18px;line-height:1.45;margin:0 0 10px;padding:10px 12px;border:0;border-radius:8px;background:#E7F7DC;box-shadow:none;color:#205735;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.sectionCount{font-size:12px;font-weight:700;margin-left:auto;white-space:nowrap}
+.todaySection .sectionTitle{border-bottom-color:var(--g)}
+.dayRule{font-size:12px;line-height:1.5;margin:-3px 0 12px}
+.sectionEmpty{font-size:14px;line-height:1.6;margin:8px 0 0;padding:12px 0;color:var(--b)}
+.airTime{font-size:14px;font-weight:800;margin-top:4px}
+.moreLink{display:flex;margin:4px auto 0;min-height:44px}
+.archiveSection{font-size:13px;border-top:1px solid #4A3B3640;padding-top:8px;margin-bottom:16px}
+.archiveSection>summary{cursor:pointer;min-height:44px;padding:12px 0;font-weight:700}
+
+/* Zen Maru Gothic: subset for the day-off message; SIL Open Font License 1.1. */
+@font-face{font-family:"Garry Dayoff";font-weight:700;font-style:normal;font-display:swap;src:url(data:font/ttf;base64,AAEAAAAQAQAABAAAQkFTRWxYeJwAAAOgAAAA0kdQT1NEdEx1AAABFAAAAB5HU1VCLZU3TQAAAnAAAABUT1MvMmAJKCcAAALEAAAAYGNtYXBwJpk0AAADJAAAAHxnYXNwAAAACwAAAQwAAAAIZ2x5ZshB8bgAAAaMAAAMpmhlYWQa4DgEAAAB/AAAADZoaGVhCCABZAAAAbQAAAAkaG10eDUBBAIAAAI0AAAAOmxvY2EZRRu/AAABNAAAACBtYXhwACwCNgAAAVQAAAAgbmFtZSr3R/wAAAR0AAACFnBvc3T/fgAUAAABdAAAACB2aGVhBb4RpgAAAdgAAAAkdm10eAakCQQAAAGUAAAAIAABAAH//wAKAAEAAAAKABwAHAABREZMVAAIAAQAAAAA//8AAAAAAAAAAAAAAHQAugFGAbcCYgLuA7IESwUcBaEGIQYhBjoGUwABAAAADwHZABUAWwAEAAEAAAAAAAAAAAAAAAAAAwABAAMAAAAAAAD/ewAUAAAAAAAAAAAAAAAAAAAAAAAAAAAD6ANwACcAZABAADUAAABCAEIATwANAGsATANwAboAjwABAAAEiP7gAAAD7v9w/ocEJQABAAAAAAAAAAAAAAAAAAAADgABEAAB9P4MAAAD6P+P/7EENwAAAAEAAAAAAAAAAAAAAAAAAQABAAAAAQBCQjpT/l8PPPUACwPoAAAAANqWNWgAAAAA3ZS+Xf9w/zkEJQPhAAEABgACAAAAAAAAA1MAAAPoABAD6ACsA+gAbQPoACYD6AAmA+gAZQPoAGMD6ABvA+gAbQPoAEwD6AAeARgAAAPoAH8BtgAAAAEAAAAKACAAOgABREZMVAAIAAQAAAAA//8AAgAAAAEAAnZlcnQAFHZydDIADgAAAAEAAQAAAAEAAAACAAYABgABAAAAAQAIAAEABgABAAEAAQANAAQDzgK8AAUAAAKKAlgAAABLAooCWAAAAV4AFAEhAAAAAAAAAAAAAAAAAAAAAwgHAAAAAAAQAAAAAFpFTiEAIAAgZeUDcP+IAAAEiAEgQBIADRDVAAAB4QK8AAAAIAADAAAAAgAAAAMAAAAUAAMAAQAAABQABABoAAAAFgAQAAMABgAgMEowWjBgMHAwfzCEMPxOymXl//8AAAAgMEowWTBfMG8wfzCEMPxOymXl////7M+5z6vPp8+Zz4vPh88RsTeaHQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAYgAIALgABAAGREZMVAA4Y3lybAAmZ3JlawAmaGFuaQA4a2FuYQA4bGF0bgAmAAYAAAAAAAMABAAmACIAeAAeAAYAAAAAAAIABAAUABAAZgAMAAEAeAABA8MAAQAlAF4ABAAGREZMVAA4Y3lybAAmZ3JlawAmaGFuaQA4a2FuYQA4bGF0bgAmAAYAAAAAAAMABAAqACYAIgAeAAYAAAAAAAIABAAYABQAEAAMAAEAAAAB/4gAAQNNAAH/qwAEaWNmYmljZnRpZGVvcm9tbgAAAAAACABmAAMAAQQJAAAAtAD8AAMAAQQJAAEAHgDeAAMAAQQJAAIACADWAAMAAQQJAAMAOgCcAAMAAQQJAAQAKAB0AAMAAQQJAAUAGgBaAAMAAQQJAAYAJAA2AAMAAQQJAA4ANgAAAGgAdAB0AHAAcwA6AC8ALwBzAGMAcgBpAHAAdABzAC4AcwBpAGwALgBvAHIAZwAvAE8ARgBMAFoAZQBuAE0AYQByAHUARwBvAHQAaABpAGMALQBCAG8AbABkAFYAZQByAHMAaQBvAG4AIAAxAC4AMAAwADEAWgBlAG4AIABNAGEAcgB1ACAARwBvAHQAaABpAGMAIABCAG8AbABkADEALgAwADAAMQA7AFoARQBOACEAOwBaAGUAbgBNAGEAcgB1AEcAbwB0AGgAaQBjAC0AQgBvAGwAZABCAG8AbABkAFoAZQBuACAATQBhAHIAdQAgAEcAbwB0AGgAaQBjAEMAbwBwAHkAcgBpAGcAaAB0ACAAMgAwADIAMQAgAFQAaABlACAAWgBlAG4AIABNAGEAcgB1ACAARwBvAHQAaABpAGMAIABBAHUAdABoAG8AcgBzACAAKABoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAGcAbwBvAGcAbABlAGYAbwBuAHQAcwAvAHoAZQBuAC0AbQBhAHIAdQBnAG8AdABoAGkAYwApAAAAAwAQ/6AD2wNJACUAPwBNAAATBiYnJjY3PgM3NhYXHgMXFhYHBgYnLgMnJiIHDgMBJiY3PgI3NiMhIiY1NDYzITIWBwYGBwYGAyImNTQ2MyEyFhUUBiN2GTEODhAZKF1dVR83XTkgUltcKBoUDg43HiNaX1YgER0RHllkYQFwGQ4QFC4oCxQu/p8ZHx8ZAaxDORgbTyoQN+IZHh4ZAWwZHR0ZAbIOCxYXLw0WPUVGHjUBMxxAQjkUDTEZHA4RFDxISSARER5KS0H95w4zFhxHRhkqIRcXIlE+Q4w+GA4CFSEWFx8fFxYhAAMArP/sAzwDDAAXACMALwAABSIuAjURND4CMzMyHgIVERQOAiMnMzI2NjU1IRUUFhYDITU0JiYjIyIGBhUBzlVwQRwcQXBVTFVwQRwcQXBVTExHRxn+ZhlIYQGaGUdHTEZIGRQXO2hRAQpRaDsXFztoUf72UWg7F3AXQkJWVkJCFwFeR0JDFhZDQgAAAwBt/9IDjQMwAEMAVwBgAAAFJiY3NDYXFjY1NCYjIgYHFRQGIyImNTQ2NzUGBgciJjU0NjM2Njc1NDYzMhYVFTY2NzYWFxYGBwYGBxU2MzIWFhUUBhMuAicmJjc2NhceAhcWFgcGBgEyNjU1BgYVFAJTGSMBJBlSVV1WIj4dXllIYH1sK1EjGSQjGSNSKyIZGSIXKBMZKAQEHhkVMxw8Q1yGSZpREC4uERYTCgwvFhU2NREUBg4PL/3UHiM2OyoBIxkaIwEBNjc1OAYFfmdhSlFThCWVBAQBIhkZIgEEA3saIyMacQIGAgQaGRkkBAQGBIQJNGFDb3oB6gwdGwgLLhYYDgsKICENDjAUEwf+myI0WhlFJS0AAAIAJv+zA7wDOwA9AEsAAAUGJicmNjc2NjcGIyImNTQ2MzIWFyYmJwYGBwYmJyY2NzY2NzU0NjMyFhUVNjY3MhYHBgYnJgcWFhcWFRQGAzY2NTQmJyYjIgYVFBYBjxgtCwoQF0xUESIhT2RoTwcMBwMDAWTBUxgmAwIeGFXIZyIZGiJTmEAZIQEBIxmApwEFAjCDQh0hAwIVIhwnJUYHDxYXMAkdSC8QUU9PWgEBESQUBA8IAh0YGSYBBwsEVhkiIhlSAgMBJBgZIAEFBSNGIDlifbwBMAEdHAgUChkhHR0fAAADACb/swPlA3AAUQBjAHEAAAUGJicmNjc2NjcGIyImNTQ2NjMyMhcmJicGBgcGJicmNjc2Njc1NDYzMhYVFTY2MyYmJyYmJyY2NzYWFxYWFxYHMzIWBwYGJyYGBxYWFxYVFAYBBiYnJiYnJjY3NhYXFhYXFgYBNjY1NCYnJiMiBhUUFgGSGC0LChAYSlURIiFPZDBTNAcNBgIDAmTDUxkmAgMfGFXKZyMZGSI3aDABAwIHFQoGCRAOHAkLHAcLERgYIgEBIxk+llABBAMvgwG7DiIICBkLBwcODh0KDB4KCAv98x0hAgIVIxwnJUYHDxYXMAkdRi4QUU81SygBDyAQBA4IAx4YGCYCBwsEYhkiIhleAgICBgMRMBMMHgcICQ4PMRQYFCMZGCEBAwECIEIdOmF9uQLwCQoQES4TCx8ICAYNDi8UECD+NAEdHAgUChggHR0fAAADAGX/0wN2Ay4AMABCAFYAABcmJjc+AjcGBgcGJicmNjc2Njc2NicmNjc2FhcWBgc2NzYWFxYGBwYGBw4CBwYGJQYmJyY2NzYWFxYWNzYWFxYGAyYmBgcGJicmNjc2NhYXFhYHBgaLFgsNJzwrDR03GBklAgEgGR1DIgMCAQEhGRkkAQECAy0kGCoFBRsYGT0iDjBDKw0wAqOV1S4LDRYWLwwejmoZKQUFG0kiV1knGCcFBRsYL2loKxgZBgUqIA0wFT+YpE8DBAIBHxkZJQECBAQiPhwZJAEBIRkZOSAIBwUaGBkoBQUKBVvDs0UVDCMiQFYWLwwMDhY1GhcFGxgZKQF5CAYDBwQbFxgpBAgEBwoFKhgXGQAABQBj/9MDvgMuADAAQgBWAGgAegAAFyYmNz4CNwYGBwYmJyY2NzY2NzY2JyY2NzYWFxYHNjY3NhYXFgYHBgYHDgIHBgYlBiYnJjY3NhYXFhY3NhYXFgYDJiYGBwYmJyY2NzY2FhcWFgcGBjcGJicmJicmJjc2NhcWFhcWBjcmJicmJjc2NhcWFhcWFgcGBokVDA0nPCsNHTcYGSUCASAZHkMiAwIBASAZGSQBAgUWKREZKQUFGxgZPCIOMEQrDTACo5XVLQsNFhYvDB2OaxgqBQUbSSJYWSYYKAUEGxgvaWgrFxkFBiowDSUMDCUPCgEMCyANECoODAIPDSgQCgQLCiANES0PDQENCyUgDTAVP5ikTwMEAgEfGRklAQIEBCI+HBkkAQEhGTM/BAcEBRoYGSgFBQoFW8OzRRUMIyJAVhYvDAwOFjUaFwUbGBkpAXkIBgMHBBsXGCkECQQICgUqGBcZxwwCDQ4oDwogDQsBCgsnEQ0jTQ4lDQogDQwDCQokDw0jDg0CAAADAG//1AOaAyEAPwBZAGYAAAUiJjU0NjMyFyYmJwYGJyYmNzY2FxY2NyY0NTQ2MzIWFRQWFTY2NzYWFxYGBwYGBxYWFxYWFxYWBwYGJyYmJwYFBiYnLgI+Ajc2NhcWFgcOAxYWFxYGJTI1NCY1JiMiBhUUFgIQUGFhVRobAQMCNWMkGSEBAiMYI180ASIZGiIBLEkZGCgEBB0YHFMwAgQBN2EkFAgODjEUGTwgCv4JGSgFBgYCAwgNCQYqGBgaBgkMCAMCBwYFHQE1PgEeHx8dHCdPSkdTAy9vOgMCAQEjGRghAQEBAyZGHxkjIxkfQiIECAQFHRgYKAMECQRGgjISMhsPMRQUCg8TJA6ZAQQcGCFyjpmRdyUYGgYGKhglcIWMg2siGChtOwMKBgYYExMWAAAFAG3/1APpA2MAPwBZAGsAfQCJAAAFIiY1NDYzMhcmJicGBicmJjc2NhcWNjcmNDU0NjMyFhUUFhU2Njc2FhcWBgcGBgcWFhcWFhcWFgcGBicmJicGBQYmJy4CPgI3NjYXFhYHDgMWFhcWBgEGJicmJicmNDc2NhcWFhcWBgcGJicmJicmNjc2FhcWFhcWBgEyNjU1JiMiBhUUFgINUGFhVRobAQMCNWMkGSEBAiMYI180ASIZGSMBK0oZGCcEBR0YHFQvAgQBN2EkFAgODjIUGDwgCv4KGCgFBgcCBAgNCQUrGBgaBgkNCAMCBwYFHAL/DSQMDCUQCgwLIA0QKg4MAm4NJQsKIw4JAg0MHw0OKA0LBv6GIB0fHh8dHCdPSkdTAy9vOgMCAQEjGRghAQEBAyZGHxkjIxkfQiIECAQFHRgYKAMECQRGgjISMhsPMRQUCg8TJA6ZAQQbGSFyjpmRdyUYGgYGKhglcIWMg2siGCgC+w0DDQ4oEAofDQsBCgwnEQ0jYwsEDw8rEAsfCwsCCwwqEg4j/bwdHhMGGBMTFgAAAgBM/9gDpQMFAEoAUwAABSYmNzY2NyYnBgYHBiYmNTQ2NjM2NzYmBwYGBwYmJyY2NzY2NzYWBwYGBxYWFzY2NzY2NzIWBwYGBxYWFxYWBwYGJyYmJwYGBwYGJTY2NwYGBxQWAewSAhEpRhpSSyVeNTJgP0KLbhUSDiY3EzwRGSYCASAZFT4Ufl8XBxIKJEwlCAoBASEZGSMBAQ0LHzscFxMKCS4XGjYbH1MvETH+9BgyGE9DARkYETISKXM/FQlOaBQUDUA6N1o3O006JwcDCAIBIBkZJQICBgEIaHgkQx8EDwkiQR4ZIwEjGSdRKQoVCwouFxYUCgwVClCMLxEC/QowKgcuHBANAAABAB7/vAO4AyQAUAAABQYmJyYmJwYGBwYmJyY2NzY2NyYmJyY2NzYWFxYWFzY2NyYnJyY2NzYWFxcWBgc3NhYWFxYOAiYnJiY3NjYXFhY2NicmJgcGBgceAhcWBgHfGCcECzUlN2UpFy0ICBYXKWQ2ECQTDA0WFjAMFCcTKVElGQ87DgoVFDEOOw0GERdiklUFBCtRa3o9FQwNDjAVLVJBIwMEUmEwcTsaLCAHAx5ABB4ZWNlqEyMPCBYXFy0IDiIRKk4iFTAMDA4WJlkwDRkKBRVaFTENDgsUWhMsDwcbF1tNPWA9FRooDjAVFQwOHhEVNCYsJhcLIhNMnI47GScAAQB/AToDagG2AA0AABMiJjU0NjMhMhYVFAYjvRklJRkCbxokJBoBOiUZGiQkGhklAAABAbb/9wIyAuEADQAABSImNRE0NjMyFhURFAYB9BklJRkaJCQJJBkCbxokJBr9kRkkAAA=) format("truetype")}
+.sectionEmpty.dayoff{font-family:"Garry Dayoff","Hiragino Maru Gothic ProN",sans-serif;font-size:19px;font-weight:700;letter-spacing:.06em;line-height:1.6;color:#386047;background:#FFF1CC;border:1.5px solid #D7BF82;border-radius:20px;padding:12px 22px;width:fit-content;max-width:100%;margin:16px auto 22px;text-align:center}
+
+/* Titles stand out, with date labels one level above the cards. */
+.ttl{color:#205735}
+.day{margin:16px 0 8px;gap:10px}
+.dateLabel{display:inline-block;font-size:14px;line-height:1.4;font-weight:800;color:var(--b);background:none;border:0;border-radius:0;padding:0;white-space:nowrap}
+.day::after{content:none;display:none}
+.card{margin-left:12px}
+@media(min-width:640px){.card{margin-left:18px}}
+
+/* Supplementary notices stay quiet, without concealing loading failures. */
+.foot{margin-top:20px;padding-top:10px}
+.note,.sourceLine p,.quietLink,.fetchDetails{font-size:11px;line-height:1.5}
+.utilityLinks{column-gap:12px}.quietLink{font-weight:600;min-height:36px}
+.sourceLine:has(#sourceStatus:not(:empty)) p{font-size:11px;font-weight:600}
+.fetchDetails{text-align:left;max-width:100%;margin:0 0 4px}
+.fetchDetails summary{width:fit-content;margin:0 auto;padding:8px 2px;min-height:32px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.fetchDetails p{overflow-wrap:anywhere;margin:2px 0 8px}
+
+/* Stronger title and a spaced, wrapping time/detail row. */
+.ttl{font-size:21px;line-height:1.4}
+.cardInfo{display:flex;align-items:baseline;column-gap:24px;margin-top:8px}
+.cardInfo .airTime{flex:0 0 auto;white-space:nowrap;margin:0}
+.cardInfo .det{flex:1;min-width:0;margin:0}
