@@ -187,7 +187,7 @@ dialog{max-height:90dvh;overflow-y:auto}.toast{max-width:90vw;z-index:5;text-ali
 .tab svg{width:17px;height:17px;flex:0 0 17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
 /* Readable dated release notes; every detail remains inside the closed toggle. */
-.storageNote{font-size:11px;line-height:1.6;margin:7px 0 4px;text-align:center}
+.storageNote{font-size:10px;line-height:1.6;margin:7px 0 4px;text-align:center}
 .siteHistory{width:100%;max-width:560px;text-align:left}
 .historyContent{margin:8px 0 12px}
 .siteHistory .historyNote{margin:0 0 12px;font-size:11px;line-height:1.7;text-align:left}
