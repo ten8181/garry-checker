@@ -407,3 +407,20 @@ document.getElementById('copyMemoBtn').addEventListener('click',async()=>{
     document.getElementById('memoExportStatus').textContent='コピーを許可できませんでした。選択した文章を長押しなどでコピーしてください。';
   }
 });
+
+// Static, local help content: never reads or modifies personal progress/memos.
+const helpDialog=document.getElementById('helpDlg');
+const helpButton=document.getElementById('helpBtn');
+helpButton.addEventListener('click',()=>{
+  if(helpDialog.open)return;
+  helpDialog.showModal();
+  document.documentElement.classList.add('helpModalOpen');
+  helpDialog.querySelector('.helpBody').scrollTop=0;
+});
+helpDialog.querySelectorAll('.helpClose').forEach(button=>{
+  button.addEventListener('click',()=>helpDialog.close());
+});
+helpDialog.addEventListener('close',()=>{
+  document.documentElement.classList.remove('helpModalOpen');
+  helpButton.focus({preventScroll:true});
+});

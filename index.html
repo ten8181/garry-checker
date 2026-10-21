@@ -23,7 +23,8 @@
   <p class="note"><span class="updatedMeta" hidden>最終更新：<span id="updatedAt"></span></span></p>
   <div class="sourceLine"><p id="sourceStatus" role="status" aria-live="polite">出演情報を読み込み中…</p><button class="quietLink" id="refreshBtn">再読込</button></div>
   <details id="fetchDetails" class="fetchDetails" hidden><summary>エラーの詳細</summary><p id="fetchDetailText"></p></details>
-  <nav class="utilityLinks" aria-label="設定とバックアップ">
+  <nav class="utilityLinks" aria-label="使い方とデータ管理">
+    <button type="button" class="quietLink" id="helpBtn" aria-haspopup="dialog" aria-controls="helpDlg">使い方</button>
     <button class="quietLink" id="memoExportBtn">メモを共有・コピー</button>
     <button class="quietLink" id="backupBtn">バックアップ</button>
   </nav>
@@ -43,6 +44,7 @@
           <li>個人メモの共有・コピー機能を追加</li>
           <li>フィードバックフォームへのボタンを追加</li>
           <li>状態ボタンの文言を変更</li>
+          <li>使い方を確認できるポップアップを追加</li>
         </ul>
       </article>
       <article class="historyEntry">
@@ -56,6 +58,46 @@
     </div>
   </details>
 </footer>
+<dialog id="helpDlg" class="sticker helpDialog" aria-labelledby="helpTitle">
+  <div class="helpDialogHeader">
+    <h1 id="helpTitle">使い方</h1>
+    <button type="button" class="quietLink helpClose" aria-label="使い方を閉じる">閉じる</button>
+  </div>
+  <div class="helpBody" tabindex="0" role="region" aria-label="使い方の説明">
+    <p>Garry’s Checkerは、出演・掲載情報を確認し、自分用のチェックやメモを残せる非公式のファン制作チェックリストです。</p>
+    <h2>チェックする</h2>
+    <p>最初は「まだだお」になっています。予約・購入・視聴などに合わせて状態を選んでください。あとから変更もできます。</p>
+    <ul><li><strong>TV</strong>：まだだお／録画予約したお／見たお</li><li><strong>雑誌</strong>：まだだお／予約・購入したお／読んだお</li></ul>
+    <p>「見たお／読んだお」にすると、完了として数えられます。</p>
+    <h2>表示を絞り込む</h2>
+    <h3>「すべて／TV／雑誌」タブ</h3>
+    <p>「すべて」は両方、「TV」「雑誌」は選んだ種類だけを表示します。上部の完了件数・進捗バーも、選んだタブに合わせて切り替わります。</p>
+    <h3>「未完了だけ表示」</h3>
+    <p>チェックを入れると、「見たお／読んだお」になった情報を非表示にします。「まだだお」や予約・購入済みの情報は表示されます。チェックを外すと、完了した情報も再び表示できます。</p>
+    <p>絞り込んでも、保存したチェック・メモは消えません。</p>
+    <h2>メモを残す</h2>
+    <p>「メモを書く」から、自分用の感想などを保存できます。保存後は「メモを編集」から書き直せます。メモは1件につき500文字まで入力できます。</p>
+    <h2>メモを持ち出す</h2>
+    <p>各カードの「メモを共有」から、その情報に書いたメモを取り出せます。ページ下部の「メモを共有・コピー」では、現在読み込まれている情報のうち、メモのあるものを日付順にまとめて取り出せます。タブや「未完了だけ表示」の絞り込みは適用されません。</p>
+    <ul><li><strong>共有メニューを開く</strong>：メモなど、送り先のアプリを選びます。対応端末で利用できます。</li><li><strong>文章をコピー</strong>：別のアプリを開き、コピーした文章を貼り付けます。コピーするだけでは、送り先のアプリには保存されません。</li></ul>
+    <p>共有する前に内容と送り先をご確認ください。共有・コピーした文章は、チェック状態を復元するためのバックアップとは別のものです。</p>
+    <h2>保存について</h2>
+    <p>チェック・メモは、使っている端末のブラウザに保存されます。<strong>スマホ・PC・タブレットなど、ほかの端末とは自動同期できません。</strong> 同じ端末でも、ブラウザが違うと別のデータになります。</p>
+    <p>機種変更や別の端末への移行には、ページ下部の「バックアップ」を使ってください。</p>
+    <ul><li><strong>バックアップを保存</strong>：チェック・メモを復元用のファイルとして保存します。</li><li><strong>バックアップから復元</strong>：保存したファイルを読み込みます。読み込み先の現在のチェック・メモは上書きされます。</li></ul>
+    <p>ブラウザのデータを削除すると、チェック・メモも消えることがあります。プライベートブラウズでは保存が保持されない場合があるため、通常のブラウズでご利用ください。</p>
+    <h2>情報の更新・NEW</h2>
+    <p>最新情報は、サイトを開いたときやページ下部の「再読込」で取得できます。開いたままの画面に、新しい出演・掲載情報が自動で追加されるわけではありません。</p>
+    <p>赤い「NEW」は、情報が公開用マスターに登録されてから24時間の目印です。出演日や、利用者が初めて見た時刻が基準ではありません。</p>
+    <p>「最終更新」は、出演・掲載情報を最後に正常に読み込んだ時刻です。サイト自体の機能・デザイン変更は「サイト更新履歴」で確認できます。</p>
+    <h2>日付について</h2>
+    <p>TVは朝5時に日付を切り替えます。深夜0〜4時台は、前日の24〜28時台として表示します。たとえば、10/20の午前0:30は「10/19・24:30」と表示されます。雑誌は午前0時に切り替わります。いずれも日本時間が基準です。</p>
+    <h2>フィードバック・要望</h2>
+    <p>機能のご要望や使いにくい点など、お気軽にお寄せください。ページ下部の「フィードバック・要望を送る↗︎」から匿名で送れます。個人情報は書かないでください。個別のお返事はできません。</p>
+    <p class="helpDisclaimer">非公式のファン制作チェックリストです。出演・掲載情報は公式発表をご確認ください。</p>
+  </div>
+  <div class="helpDialogFooter"><button type="button" class="btn ghost helpClose">閉じる</button></div>
+</dialog>
 <dialog id="memoDlg" class="sticker">
   <form method="dialog">
     <h2 id="memoTitle"></h2>

@@ -196,3 +196,21 @@ dialog{max-height:90dvh;overflow-y:auto}.toast{max-width:90vw;z-index:5;text-ali
 .historyEntry h3{font-size:14px;font-weight:800;margin:4px 0 8px;line-height:1.5}
 .siteHistory .historyEntry ul{margin:0;padding-left:18px;font-size:12px;line-height:1.7}
 .siteHistory .historyEntry li{margin:4px 0;text-align:left;overflow-wrap:anywhere}
+
+/* Help opens in a separate modal layer; the checklist and its saved data stay intact. */
+html.helpModalOpen{overflow:hidden}
+.helpDialog{width:min(94vw,600px);max-height:88dvh;padding:0;overflow:hidden;text-align:left}
+.helpDialog[open]{display:flex;flex-direction:column}
+.helpDialogHeader{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid #E6DFD6;flex-shrink:0}
+.helpDialogHeader h1{font-size:20px;line-height:1.4;margin:0;color:var(--b)}
+.helpDialogHeader .quietLink{min-height:44px;padding:8px;font-size:13px}
+.helpBody{min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:0 18px 14px;font-size:14px;line-height:1.85;overflow-wrap:anywhere}
+.helpBody p{margin:14px 0}
+.helpBody h2{margin:26px 0 14px;padding:8px 11px;background:#E7F7DC;color:#205735;border-radius:8px;font-size:17px;line-height:1.6}
+.helpBody h3{margin:20px 0 8px;font-size:15px;line-height:1.7;color:#205735}
+.helpBody ul{padding-left:1.4em;margin:12px 0}
+.helpBody li{margin:8px 0}
+.helpBody .helpDisclaimer{font-size:11px;border-top:1px solid #E6DFD6;padding-top:14px}
+.helpDialogFooter{display:flex;justify-content:center;padding:10px 18px 14px;flex-shrink:0;border-top:1px solid #E6DFD6}
+.helpDialogFooter .btn{min-height:44px;min-width:120px}
+#helpBtn{min-height:44px}
