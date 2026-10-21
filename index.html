@@ -25,6 +25,7 @@
   <details id="fetchDetails" class="fetchDetails" hidden><summary>エラーの詳細</summary><p id="fetchDetailText"></p></details>
   <nav class="utilityLinks" aria-label="使い方とデータ管理">
     <button type="button" class="quietLink" id="helpBtn" aria-haspopup="dialog" aria-controls="helpDlg">使い方</button>
+    <button type="button" class="quietLink" id="termsBtn" aria-haspopup="dialog" aria-controls="termsDlg">ご利用にあたって</button>
     <button class="quietLink" id="memoExportBtn">メモを共有・コピー</button>
     <button class="quietLink" id="backupBtn">バックアップ</button>
   </nav>
@@ -45,6 +46,7 @@
           <li>フィードバックフォームへのボタンを追加</li>
           <li>状態ボタンの文言を変更</li>
           <li>使い方を確認できるポップアップを追加</li>
+          <li>ご利用にあたっての案内を追加</li>
         </ul>
       </article>
       <article class="historyEntry">
@@ -58,6 +60,7 @@
     </div>
   </details>
 </footer>
+<dialog id="termsDlg" class="sticker helpDialog" aria-labelledby="termsTitle"><div class="helpDialogHeader"><h1 id="termsTitle">ご利用にあたって</h1><button type="button" class="quietLink termsClose" aria-label="ご利用にあたってを閉じる">閉じる</button></div><div class="helpBody" tabindex="0" role="region" aria-label="ご利用にあたっての説明"><p>ご利用の前に、以下の内容をご確認ください。</p><h2>このサイトについて</h2><p>Garry’s Checkerは、個人が運営する非公式のファン制作チェックリストです。ご本人・所属事務所・出版社・放送局などの関係各社とは関係がありません。</p><h2>試験運用・サービスの変更について</h2><p>当サイトは現在、試験運用中です。機能・仕様の変更や、一時的な停止、公開を終了する場合があります。公開を終了する際は、原則として事前にサイト内でお知らせします。ただし、障害などにより事前のお知らせが難しい場合があります。</p><h2>チェック・メモの保存について</h2><p>チェック・個人メモは、ご利用の端末のブラウザ内に保存されます。当サイトの運営者や、ほかの利用者に公開・送信されることはありません。共有・コピーを操作した場合は、ご自身で選んだ共有先やクリップボードへ内容が渡ります。共有先アプリでの保存・同期は、そのアプリの設定に従います。</p><p>スマホ・PC・タブレットなど、異なる端末やブラウザの間で自動同期はされません。端末・ブラウザの変更、ブラウザのデータ削除、不具合などにより、保存したデータが失われることがあります。</p><p>運営者側では個人の保存データを保持していないため、データの復元はできません。データ消失に伴う補償には対応できません。ただし、法令により責任を負う場合を除きます。大切な記録は定期的にバックアップを保存してください。</p><h2>掲載情報について</h2><p>出演・掲載情報の登録・確認には手作業を含むため、更新の遅れや記載の誤り、情報の不足が生じる場合があります。できる限り正確な情報の掲載に努めますが、正確性・完全性・最新性を保証するものではありません。</p><p>放送日時・発売日などは、必ず公式発表をご確認ください。誤りにお気付きの場合は、フィードバックからお知らせいただけますと幸いです。</p><h2>著作権・転載・再配布について</h2><p>当サイトで独自に制作した文章・デザイン・素材などの無断転載・再配布・販売を、引用など法令で認められる場合を除き禁止します。第三者の著作物・商標などの権利は、それぞれの権利者に帰属します。利用しているフォントなどの素材には、各素材のライセンスが適用されます。</p><p>この記載は、出演日時などの事実そのものについて独占的な権利を主張するものではありません。また、利用者ご自身が作成した個人メモの共有や、バックアップ機能の利用を禁止するものではありません。</p><h2>サイトの紹介・共有について</h2><p>当サイトの紹介を目的としたURLの共有や、画面のスクリーンショット掲載は可能です。掲載の際は個人メモ・個人情報の写り込みや、第三者の権利にご配慮ください。公式サイトと誤認させる紹介はお控えください。</p><h2>外部サービスとの通信について</h2><p>サイトの配信・出演情報の取得には、GitHubおよびGoogleとの通信が発生します。フィードバックフォームを利用する場合はNotionと通信します。これらのサービスにおける情報の取り扱いは、各サービスの方針をご確認ください。</p><h2>フィードバック・お問い合わせ</h2><p>機能のご要望や使いにくい点、掲載情報の誤りなどは、ページ下部の「フィードバック・要望を送る↗︎」から匿名でお寄せいただけます。個人情報は書かないでください。個別のお返事はできません。</p><p class="helpDisclaimer">最終更新：2026年10月21日</p></div><div class="helpDialogFooter"><button type="button" class="btn ghost termsClose">閉じる</button></div></dialog>
 <dialog id="helpDlg" class="sticker helpDialog" aria-labelledby="helpTitle">
   <div class="helpDialogHeader">
     <h1 id="helpTitle">使い方</h1>

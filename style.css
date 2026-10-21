@@ -214,3 +214,6 @@ html.helpModalOpen{overflow:hidden}
 .helpDialogFooter{display:flex;justify-content:center;padding:10px 18px 14px;flex-shrink:0;border-top:1px solid #E6DFD6}
 .helpDialogFooter .btn{min-height:44px;min-width:120px}
 #helpBtn{min-height:44px}
+
+#termsBtn{min-height:44px}
+#termsDlg .helpDialogHeader h1{font-size:18px}

@@ -424,3 +424,18 @@ helpDialog.addEventListener('close',()=>{
   document.documentElement.classList.remove('helpModalOpen');
   helpButton.focus({preventScroll:true});
 });
+
+// Usage notice: static text only; never touches private progress or memos.
+const termsDialog=document.getElementById('termsDlg');
+const termsButton=document.getElementById('termsBtn');
+termsButton.addEventListener('click',()=>{
+  if(termsDialog.open)return;
+  termsDialog.showModal();
+  document.documentElement.classList.add('helpModalOpen');
+  termsDialog.querySelector('.helpBody').scrollTop=0;
+});
+termsDialog.querySelectorAll('.termsClose').forEach(button=>button.addEventListener('click',()=>termsDialog.close()));
+termsDialog.addEventListener('close',()=>{
+  document.documentElement.classList.remove('helpModalOpen');
+  termsButton.focus({preventScroll:true});
+});
