@@ -48,13 +48,31 @@ const cat = id => data.categories.find(c => c.id === id) || {name: id, statuses:
 const isDone = it => rec(it.id).status === cat(it.category).statuses.length - 1;
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
+// Explicit offsets only: avoid interpreting a sheet timestamp in each visitor's timezone.
+const NEW_WINDOW_MS = 24 * 60 * 60 * 1000;
+function addedTimestamp(value) {
+  const text=String(value ?? '').trim();
+  if(!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?(?:Z|[+-]\d{2}:\d{2})$/.test(text))return NaN;
+  return Date.parse(text);
+}
+function isNewItem(it, now=Date.now()) {
+  const added=addedTimestamp(it.addedAt), age=now-added;
+  return Number.isFinite(added)&&age>=0&&age<NEW_WINDOW_MS;
+}
+function updateNewBadges() {
+  const byId=new Map(data.items.map(it=>[it.id,it]));
+  document.querySelectorAll('[data-new-for]').forEach(el=>{
+    const it=byId.get(el.dataset.newFor);
+    el.hidden=!it||!isNewItem(it);
+  });
+}
 function cardHTML(it, b){
   const c=cat(it.category), r=rec(it.id);
   return `<article class="card sticker ${isDone(it)?'done':''}" data-item="${esc(it.id)}">
-    <div class="cardHead"><div class="ttl">${esc(it.title)}</div><div class="badges"><span class="tag ${it.category==='tv'?'tagTv':it.category==='magazine'?'tagMagazine':''}">${categoryIcon(it.category)}${esc(c.name)}</span></div></div>
+    <div class="cardHead"><div class="ttl">${esc(it.title)} <span class="newBadge" data-new-for="${esc(it.id)}" ${isNewItem(it)?'':'hidden'} aria-label="追加から24時間以内">NEW</span></div><div class="badges"><span class="tag ${it.category==='tv'?'tagTv':it.category==='magazine'?'tagMagazine':''}">${categoryIcon(it.category)}${esc(c.name)}</span></div></div>
     ${b.label||it.detail?`<div class="cardInfo">${b.label?`<div class="airTime">${esc(b.label)}</div>`:''}${it.detail?`<p class="det">${esc(it.detail)}</p>`:''}</div>`:''}
     <div class="tasks">${c.statuses.map((t,slot)=>`<button class="chip" data-id="${esc(it.id)}" data-status="${slot}" aria-pressed="${r.status===slot}">${esc(t)}</button>`).join('')}</div>
-    <div class="acts"><button class="memo" data-memo="${esc(it.id)}">${r.memo?'メモを編集':'メモを書く'}</button>${it.url?`<a class="link" href="${esc(it.url)}" target="_blank" rel="noopener">公式のお知らせ</a>`:''}</div>
+    <div class="acts"><button class="memo" data-memo="${esc(it.id)}"><svg class="memoIcon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4H6a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6M8 16h4M8 12h2"/><path d="m12 11 7-7a1.4 1.4 0 0 1 2 2l-7 7-3 1 1-3Zm5-5 2 2"/></svg>${r.memo?'メモを編集':'メモを書く'}</button>${r.memo.trim()?`<button class="memo shareMemoLink" data-share-memo="${esc(it.id)}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 16V3m-4 4 4-4 4 4M6 11H4v10h16V11h-2"/></svg>メモを共有</button>`:''}${it.url?`<a class="link" href="${esc(it.url)}" target="_blank" rel="noopener">公式のお知らせ</a>`:''}</div>
     ${r.memo?`<div class="memoPrev">${esc(r.memo)}</div>`:''}
   </article>`;
 }
@@ -107,6 +125,8 @@ function render(){
 function toast(msg){ const t = document.getElementById("toast"); t.textContent = msg; t.hidden = false; clearTimeout(t._h); t._h = setTimeout(() => t.hidden = true, 2200); }
 
 document.addEventListener("click", e => {
+  const share=e.target.closest('[data-share-memo]');
+  if(share){openMemoExport(share.dataset.shareMemo);return;}
   const more=e.target.closest('[data-more]');
   if(more){visibleLimits[more.dataset.more]+=5;render();return;}
   const tab = e.target.closest("[data-tab]");
@@ -198,6 +218,7 @@ function convertRows(rows, s) {
   const names = ['ID','日付','種別','タイトル','メモ'];
   const ix = names.map(n => head.indexOf(n));
   const timeIndex=head.indexOf('開始時刻');
+  const addedIndex=head.indexOf('追加日時');
   if (ix.some(i => i < 0)) throw new Error('1行目に必要な列がありません：' + names.filter((n,i) => ix[i]<0).join('、'));
   const categories = (config.categories || []).map(c => ({...c, statuses:[...c.statuses]}));
   const items = [], ids = new Set();
@@ -221,7 +242,8 @@ function convertRows(rows, s) {
       if(!tm||+tm[1]>23||+tm[2]>59)throw new Error(`${i+2}行目：開始時刻は実時刻の00:00〜23:59で入力してください`);
       start=dateKey+'T'+tm[1].padStart(2,'0')+':'+tm[2]+':00+09:00';allDay=false;
     }
-    items.push({id:'sheet:'+sourceKey(s)+':'+id,category,title,start,allDay,detail});
+    const addedAt=addedIndex<0?'':String(r[addedIndex]??'').trim();
+    items.push({id:'sheet:'+sourceKey(s)+':'+id,category,title,start,allDay,detail,addedAt});
   });
   return {categories:categories.filter(c => items.some(it=>it.category===c.id)),items,updatedAt:new Date().toISOString()};
 }
@@ -302,7 +324,7 @@ const backupDlg=document.getElementById('backupDlg');
 document.getElementById('backupBtn').addEventListener('click',()=>backupDlg.showModal());
 document.getElementById('closeBackup').addEventListener('click',()=>backupDlg.close());
 const settingsDlg=document.getElementById('settingsDlg');
-document.getElementById('settingsBtn').addEventListener('click',()=>{
+document.getElementById('settingsBtn')?.addEventListener('click',()=>{
   document.getElementById('sheetUrl').value=settings.sheetUrl;
   document.getElementById('sheetName').value=settings.sheetName || '';
   document.getElementById('settingsError').textContent='';settingsDlg.showModal();
@@ -332,5 +354,56 @@ async function init(){
 }
 init();
 let lastDaySignature=todayKey('tv')+'|'+todayKey('magazine');
-setInterval(()=>{const signature=todayKey('tv')+'|'+todayKey('magazine');if(signature!==lastDaySignature){lastDaySignature=signature;render();}},30000);
+setInterval(()=>{const signature=todayKey('tv')+'|'+todayKey('magazine');if(signature!==lastDaySignature){lastDaySignature=signature;render();}else{updateNewBadges();}},1000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)render();});
+
+// Readable memo export is separate from the unchanged JSON backup format.
+const memoExportDlg=document.getElementById('memoExportDlg');
+const memoExportPreview=document.getElementById('memoExportPreview');
+let memoExportPayload=null;
+function memoEntryText(it) {
+  const b=broadcast(it), r=rec(it.id), c=cat(it.category);
+  const date=`${b.y}/${String(b.m).padStart(2,'0')}/${String(b.d).padStart(2,'0')}`;
+  return `${it.title}\n${date}${b.label?' '+b.label:''}\n種別：${c.name}\n状態：${c.statuses[r.status]??c.statuses[0]}\n\nメモ：\n${r.memo.trim()}`;
+}
+function makeMemoExport(id=null) {
+  const items=data.items.filter(it=>(id===null||it.id===id)&&rec(it.id).memo.trim());
+  items.sort((a,b)=>broadcast(a).key.localeCompare(broadcast(b).key)||a.start.localeCompare(b.start)||a.id.localeCompare(b.id));
+  return {count:items.length,text:items.map(memoEntryText).join('\n\n────────────\n\n')+(items.length?'\n\n— Garry’s Checker':''),title:id&&items[0]?items[0].title+' — Garry’s Checker':'Garry’s Checker メモ'};
+}
+function openMemoExport(id=null) {
+  const payload=makeMemoExport(id);
+  if(!payload.count){toast('保存済みのメモがありません');return;}
+  memoExportPayload=payload;
+  memoExportPreview.value=payload.text;
+  document.getElementById('memoExportTitle').textContent=id?'メモを共有':'メモを共有・コピー';
+  document.getElementById('memoExportHint').textContent=id?'この項目の保存済みメモを書き出します。':`読み込み済みの情報から、メモのある${payload.count}件を日付順に書き出します。画面の絞り込みは適用しません。`;
+  document.getElementById('memoExportStatus').textContent='';
+  document.getElementById('shareMemoBtn').hidden=typeof navigator.share!=='function';
+  if(typeof navigator.share!=='function')document.getElementById('memoExportStatus').textContent='このブラウザでは共有メニューを使えません。「文章をコピー」で、保存先のアプリに貼り付けてください。';
+  memoExportDlg.showModal();
+}
+document.getElementById('memoExportBtn').addEventListener('click',()=>openMemoExport());
+document.getElementById('closeMemoExport').addEventListener('click',()=>memoExportDlg.close());
+document.getElementById('shareMemoBtn').addEventListener('click',async()=>{
+  if(!memoExportPayload)return;
+  // Called directly from a user click so iOS retains transient activation.
+  try{
+    await navigator.share({title:memoExportPayload.title,text:memoExportPayload.text});
+    document.getElementById('memoExportStatus').textContent='共有先へ渡しました。保存・送信の完了は共有先で確認してください。';
+  }catch(e){
+    if(e.name==='AbortError'){document.getElementById('memoExportStatus').textContent='共有をキャンセルしました。';return;}
+    document.getElementById('memoExportStatus').textContent='共有できませんでした。「文章をコピー」で、保存先のアプリに貼り付けてください。';
+  }
+});
+document.getElementById('copyMemoBtn').addEventListener('click',async()=>{
+  if(!memoExportPayload)return;
+  try{
+    if(!navigator.clipboard?.writeText)throw new Error('Clipboard unavailable');
+    await navigator.clipboard.writeText(memoExportPayload.text);
+    document.getElementById('memoExportStatus').textContent='コピーしました。保存先に貼り付けてください。';
+  }catch{
+    memoExportPreview.focus();memoExportPreview.select();memoExportPreview.setSelectionRange(0,memoExportPreview.value.length);
+    document.getElementById('memoExportStatus').textContent='コピーを許可できませんでした。選択した文章を長押しなどでコピーしてください。';
+  }
+});

@@ -1,6 +1,6 @@
 {
-  "name": "GARRY CHECK 猪狩蒼弥様 出演チェック",
-  "short_name": "GARRY CHECK",
+  "name": "Garry’s Checker",
+  "short_name": "Garry’s Checker",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

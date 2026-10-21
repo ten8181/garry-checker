@@ -135,3 +135,49 @@ dialog{max-height:90dvh;overflow-y:auto}.toast{max-width:90vw;z-index:5;text-ali
 .cardInfo{display:flex;align-items:baseline;column-gap:24px;margin-top:8px}
 .cardInfo .airTime{flex:0 0 auto;white-space:nowrap;margin:0}
 .cardInfo .det{flex:1;min-width:0;margin:0}
+
+/* NEW: independent from viewing progress, expires 24 hours after master creation. */
+.newBadge{display:inline-block;vertical-align:middle;margin-left:4px;padding:2px 6px;border:1px solid #A51F29;border-radius:5px;background:#B4232F;color:#FFF;font-family:Arial,sans-serif;font-size:10px;font-weight:800;line-height:1.25;letter-spacing:.04em;white-space:nowrap}
+.newBadge[hidden]{display:none}
+
+/* Small footer entry points; never expose the private response database. */
+.feedbackLinks{display:flex;justify-content:center;margin:4px 0}
+.feedbackLinks a{display:inline-flex;align-items:center;min-height:44px;text-underline-offset:3px}
+.siteHistory{margin:0 auto;max-width:560px;text-align:left;font-size:11px;line-height:1.7}
+.siteHistory summary{width:fit-content;margin:0 auto;min-height:44px;display:list-item;align-content:center;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.siteHistory .historyNote{margin:2px 0 8px}
+.siteHistory ul{padding-left:18px;margin:0 0 10px}
+.siteHistory li{margin:6px 0;overflow-wrap:anywhere}
+
+/* One blank line before reload, including during loading/error states. */
+.sourceLine,.sourceLine:has(#sourceStatus:not(:empty)){margin-top:18px}
+.memo{gap:5px}
+.memoIcon{width:16px;height:16px;flex:0 0 16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+.acts{flex-wrap:wrap;column-gap:16px;row-gap:0}
+.shareMemoLink{gap:5px}
+.shareMemoLink svg{width:16px;height:16px;flex:0 0 16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.memoExportActions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0}
+.memoExportActions .btn{font-size:13px;padding:10px 4px}
+.memoExportActions [hidden]{display:none}
+.exportLabel{display:block;font-size:12px;font-weight:700;margin-bottom:5px}
+#memoExportPreview{white-space:pre-wrap;font-size:13px;line-height:1.6}
+#memoExportStatus{min-height:1.6em}
+
+/* Describe export destinations instead of ambiguous short action names. */
+.memoExportActions{grid-template-columns:minmax(0,1fr);gap:10px}
+.memoExportActions .exportChoice{text-align:left;padding:10px 12px}
+.exportChoice span,.exportChoice small{display:block}
+.exportChoice span{font-size:14px;font-weight:800}
+.exportChoice small{margin-top:3px;font-size:11px;font-weight:400;line-height:1.5}
+
+/* A clear, secondary feedback button, matching the sticker palette. */
+.feedbackLinks{margin:14px 0 10px}
+.feedbackLinks a.quietLink{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 16px;border:2px solid var(--b);border-radius:12px;background:#E7F7DC;box-shadow:3px 3px 0 var(--b);color:var(--b);font-size:12px;font-weight:800;line-height:1.5;text-decoration:none;text-align:center}
+.feedbackLinks a.quietLink:hover{background:#D9F3CA}
+.feedbackLinks a.quietLink:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--b)}
+.feedbackLinks a.quietLink:focus-visible{outline:3px solid #205735;outline-offset:5px}
+
+/* Compact public footer; detailed storage guidance lives in Backup. */
+.note .updatedMeta:not([hidden]){display:block;margin-top:3px}
+.note .updatedMeta[hidden]{display:none}
