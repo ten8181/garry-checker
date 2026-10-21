@@ -181,3 +181,7 @@ dialog{max-height:90dvh;overflow-y:auto}.toast{max-width:90vw;z-index:5;text-ali
 /* Compact public footer; detailed storage guidance lives in Backup. */
 .note .updatedMeta:not([hidden]){display:block;margin-top:3px}
 .note .updatedMeta[hidden]{display:none}
+
+/* Category tabs use the same outline icons as the card tags. */
+.tab{display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.tab svg{width:17px;height:17px;flex:0 0 17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}

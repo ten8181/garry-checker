@@ -44,7 +44,7 @@ function categoryIcon(id) {
   if (id === 'magazine') return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v15M3 4c3-1 6-1 9 1 3-2 6-2 9-1v15c-3-1-6-1-9 1-3-2-6-2-9-1Z"/></svg>';
   return '';
 }
-const cat = id => data.categories.find(c => c.id === id) || {name: id, statuses: ["未着手", "完了"]};
+const cat = id => data.categories.find(c => c.id === id) || {name: id, statuses: ["まだだお", "完了"]};
 const isDone = it => rec(it.id).status === cat(it.category).statuses.length - 1;
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
@@ -87,7 +87,7 @@ function rowsHTML(rows){
 function render(){
   const now=new Date();
   const tabs=[{id:'all',name:'すべて'},...data.categories.slice().sort((a,b)=>a.order-b.order)];
-  document.getElementById('tabs').innerHTML=tabs.map(t=>`<button class="tab" data-tab="${esc(t.id)}" aria-pressed="${filter===t.id}">${esc(t.name)}</button>`).join('');
+  document.getElementById('tabs').innerHTML=tabs.map(t=>`<button class="tab" data-tab="${esc(t.id)}" aria-pressed="${filter===t.id}">${categoryIcon(t.id)}${esc(t.name)}</button>`).join('');
   const selected=data.items.filter(it=>filter==='all'||it.category===filter);
   const done=selected.filter(isDone).length;
   document.getElementById('progressText').textContent=`完了 ${done} / ${selected.length}件`;
@@ -113,7 +113,7 @@ function render(){
   };
   const unavailable=dataLoadFailed&&!data.items.length;
   let html=section('today','今日のGarry',unavailable?'情報を読み込めませんでした。':onlyTodo?'今日の未完了の情報はありません。':'今日はおやすみだおー');
-  html+=section('past','未確認Garry',unavailable?'情報を読み込めませんでした。':'過去の未確認情報はありません。');
+  html+=section('past','過去のGarry',unavailable?'情報を読み込めませんでした。':'過去の未確認情報はありません。');
   html+=section('future','未来のGarry',unavailable?'情報を読み込めませんでした。':'今後の予定は登録されていません。');
   if(groups.archive.length)html+=`<details class="archiveSection" ${archiveOpen?'open':''}><summary>完了した過去の記録（${groups.archive.length}件）</summary>${rowsHTML(groups.archive.slice(0,visibleLimits.archive))}${groups.archive.length>visibleLimits.archive?`<button class="quietLink" data-more="archive">もっと見る（残り${groups.archive.length-visibleLimits.archive}件）</button>`:''}</details>`;
   document.getElementById('list').innerHTML=html;
@@ -233,7 +233,7 @@ function convertRows(rows, s) {
     const d = new Date(Date.UTC(+m[1], +m[2]-1, +m[3]));
     if (d.getUTCFullYear()!==+m[1] || d.getUTCMonth()!==+m[2]-1 || d.getUTCDate()!==+m[3]) throw new Error(`${i+2}行目：存在しない日付です`);
     const category = categoryId(type);
-    if (!categories.some(c => c.id===category)) categories.push({id:category,name:type,order:categories.length+10,statuses:['未着手','完了']});
+    if (!categories.some(c => c.id===category)) categories.push({id:category,name:type,order:categories.length+10,statuses:['まだだお','完了']});
     const dateKey=`${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`;
     const rawTime=timeIndex<0?'':String(r[timeIndex]??'').trim();
     let start=dateKey, allDay=true;
