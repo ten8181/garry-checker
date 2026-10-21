@@ -185,3 +185,14 @@ dialog{max-height:90dvh;overflow-y:auto}.toast{max-width:90vw;z-index:5;text-ali
 /* Category tabs use the same outline icons as the card tags. */
 .tab{display:inline-flex;align-items:center;justify-content:center;gap:6px}
 .tab svg{width:17px;height:17px;flex:0 0 17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* Readable dated release notes; every detail remains inside the closed toggle. */
+.storageNote{font-size:11px;line-height:1.6;margin:7px 0 4px;text-align:center}
+.siteHistory{width:100%;max-width:560px;text-align:left}
+.historyContent{margin:8px 0 12px}
+.siteHistory .historyNote{margin:0 0 12px;font-size:11px;line-height:1.7;text-align:left}
+.historyEntry{background:#fff;border:2px solid var(--b);border-radius:12px;padding:12px 14px;margin:0 0 10px;text-align:left}
+.historyEntry time{display:block;color:#205735;font-size:12px;font-weight:800;line-height:1.5}
+.historyEntry h3{font-size:14px;font-weight:800;margin:4px 0 8px;line-height:1.5}
+.siteHistory .historyEntry ul{margin:0;padding-left:18px;font-size:12px;line-height:1.7}
+.siteHistory .historyEntry li{margin:4px 0;text-align:left;overflow-wrap:anywhere}

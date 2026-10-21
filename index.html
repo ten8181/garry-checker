@@ -20,22 +20,40 @@
 <label class="toggle"><input type="checkbox" id="onlyTodo"> 未完了だけ表示</label>
 <main id="list" aria-label="出演情報"></main>
 <footer class="foot">
-  <p class="note"><span>チェック・メモはこの端末に保存</span><span class="updatedMeta" hidden>最終更新：<span id="updatedAt"></span></span></p>
+  <p class="note"><span class="updatedMeta" hidden>最終更新：<span id="updatedAt"></span></span></p>
   <div class="sourceLine"><p id="sourceStatus" role="status" aria-live="polite">出演情報を読み込み中…</p><button class="quietLink" id="refreshBtn">再読込</button></div>
   <details id="fetchDetails" class="fetchDetails" hidden><summary>エラーの詳細</summary><p id="fetchDetailText"></p></details>
   <nav class="utilityLinks" aria-label="設定とバックアップ">
     <button class="quietLink" id="memoExportBtn">メモを共有・コピー</button>
     <button class="quietLink" id="backupBtn">バックアップ</button>
   </nav>
+  <p class="storageNote">チェック・メモはこの端末に保存されます。</p>
   <nav class="feedbackLinks" aria-label="フィードバック">
     <a class="quietLink" href="https://app.notion.com/p/f7338e3090de4d66aaf5a6f932e53412" target="_blank" rel="noopener noreferrer">フィードバック・要望を送る↗︎</a>
   </nav>
   <details class="siteHistory">
     <summary>サイト更新履歴</summary>
-    <p class="historyNote">機能・デザイン・不具合修正の履歴です。出演・掲載情報の追加は含みません。</p>
-    <ul>
-      <li><strong>初回公開</strong> — TV・雑誌の出演情報、進捗チェック、個人メモ、バックアップ機能を公開。</li>
-    </ul>
+    <div class="historyContent">
+      <p class="historyNote">サイトの機能・デザインの変更をまとめています。<br>出演・掲載情報の追加は含みません。</p>
+      <article class="historyEntry">
+        <time datetime="2026-10-21">2026/10/21</time>
+        <h3>機能・デザインを更新</h3>
+        <ul>
+          <li>サイト名を「Garry’s Checker」に変更</li>
+          <li>個人メモの共有・コピー機能を追加</li>
+          <li>フィードバックフォームへのボタンを追加</li>
+          <li>状態ボタンの文言を変更</li>
+        </ul>
+      </article>
+      <article class="historyEntry">
+        <time datetime="2026-10-20">2026/10/20</time>
+        <h3>サイトを公開</h3>
+        <ul>
+          <li>TV・雑誌の出演・掲載情報を表示</li>
+          <li>チェック・個人メモ・バックアップ機能を公開</li>
+        </ul>
+      </article>
+    </div>
   </details>
 </footer>
 <dialog id="memoDlg" class="sticker">
