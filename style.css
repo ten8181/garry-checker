@@ -264,3 +264,6 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #2057
 /* Public memo links are distinct from the visitor's private notes. */
 .det .detailLink{color:#1559a6;font-weight:700;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
 .det .detailLink:focus-visible{outline:3px solid #205735;outline-offset:3px;border-radius:2px}
+/* Strengthen card titles while keeping the NEW badge unchanged. */
+.ttl{font-weight:900;-webkit-text-stroke:0.35px currentColor;paint-order:stroke fill}
+.ttl .newBadge{-webkit-text-stroke:0}
