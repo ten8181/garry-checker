@@ -1,5 +1,5 @@
-const CACHE='garry-check-release-v20-cache-fix';
-const ASSETS=['./','index.html','style.css?v=20261107b','app.js?v=20261107b','manifest.webmanifest','icons/icon-192.png','icons/icon-512.png','icons/apple-touch-icon.png','icons/icon-maskable-512.png','assets/logo.png','assets/today.png','assets/past.png','assets/future.png','assets/zen-maru-regular.ttf','assets/zen-maru-bold.ttf'];
+const CACHE='garry-check-release-v21-blue-links';
+const ASSETS=['./','index.html','style.css?v=20261107c','app.js?v=20261107b','manifest.webmanifest','icons/icon-192.png','icons/icon-512.png','icons/apple-touch-icon.png','icons/icon-maskable-512.png','assets/logo.png','assets/today.png','assets/past.png','assets/future.png','assets/zen-maru-regular.ttf','assets/zen-maru-bold.ttf'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)));self.skipWaiting();});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith('garry-check-')&&k!==CACHE).map(k=>caches.delete(k)))));self.clients.claim();});
 self.addEventListener('fetch',e=>{

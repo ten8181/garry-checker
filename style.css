@@ -262,5 +262,5 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #2057
 .footerUpdateRow #refreshBtn:hover{background:transparent}
 .footerUpdateRow #refreshBtn:hover::before{background:#f1f7ed}
 /* Public memo links are distinct from the visitor's private notes. */
-.det .detailLink{color:#205735;font-weight:700;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+.det .detailLink{color:#1559a6;font-weight:700;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
 .det .detailLink:focus-visible{outline:3px solid #205735;outline-offset:3px;border-radius:2px}
