@@ -1,5 +1,5 @@
 const KEY = "garry-check:sheet-status:v1";
-const WD = ["日","月","火","水","木","金","土"];
+const WD = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 let data = {categories: [], items: []};
 let state = load();
 let filter = "all";
@@ -41,6 +41,7 @@ function itemBucket(it, now=new Date()) {
 }
 function categoryIcon(id) {
   if (id === 'tv') return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 3 4 4 4-4M6 21h12"/><rect x="3" y="7" width="18" height="12" rx="3"/></svg>';
+  if (id === 'stream') return '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="3.5"/><path d="m10 9 5 3-5 3z"/></svg>';
   if (id === 'magazine') return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v15M3 4c3-1 6-1 9 1 3-2 6-2 9-1v15c-3-1-6-1-9 1-3-2-6-2-9-1Z"/></svg>';
   return '';
 }
@@ -66,11 +67,26 @@ function updateNewBadges() {
     el.hidden=!it||!isNewItem(it);
   });
 }
+// Link metadata is optional; malformed or mismatched data safely falls back to plain text.
+function detailHTML(it){
+  const detail=String(it.detail ?? '');
+  const parts=it.detailParts;
+  if(!Array.isArray(parts) || parts.some(p=>!p || typeof p.text!=='string' || (p.href!=null && typeof p.href!=='string')) || parts.map(p=>p.text).join('').trim()!==detail) return esc(detail);
+  return parts.map(p=>{
+    let href=null;
+    if(p.href) try { const u=new URL(p.href); if(['https:','http:'].includes(u.protocol) && !u.username && !u.password) href=u.href; } catch {}
+    return href ? `<a class="detailLink" href="${esc(href)}" target="_blank" rel="noopener noreferrer">${esc(p.text)}</a>` : esc(p.text);
+  }).join('').trim();
+}
+function parseDetailParts(value){
+  if(!value)return null;
+  try { const obj=JSON.parse(value); return obj && obj.v===1 && Array.isArray(obj.parts) ? obj.parts : null; } catch { return null; }
+}
 function cardHTML(it, b){
   const c=cat(it.category), r=rec(it.id);
-  return `<article class="card sticker ${isDone(it)?'done':''}" data-item="${esc(it.id)}">
-    <div class="cardHead"><div class="ttl">${esc(it.title)} <span class="newBadge" data-new-for="${esc(it.id)}" ${isNewItem(it)?'':'hidden'} aria-label="追加から24時間以内">NEW</span></div><div class="badges"><span class="tag ${it.category==='tv'?'tagTv':it.category==='magazine'?'tagMagazine':''}">${categoryIcon(it.category)}${esc(c.name)}</span></div></div>
-    ${b.label||it.detail?`<div class="cardInfo">${b.label?`<div class="airTime">${esc(b.label)}</div>`:''}${it.detail?`<p class="det">${esc(it.detail)}</p>`:''}</div>`:''}
+  return `<article class="card sticker cat-${esc(it.category)} ${isDone(it)?'done':''}" data-item="${esc(it.id)}">
+    <div class="cardHead"><div class="ttl">${esc(it.title)} <span class="newBadge" data-new-for="${esc(it.id)}" ${isNewItem(it)?'':'hidden'} aria-label="追加から24時間以内">NEW</span></div><div class="badges"><span class="tag ${it.category==='tv'?'tagTv':it.category==='magazine'?'tagMagazine':it.category==='stream'?'tagStream':''}">${categoryIcon(it.category)}${esc(c.name)}</span></div></div>
+    ${b.label||it.detail?`<div class="cardInfo">${b.label?`<div class="airTime">${esc(b.label)}</div>`:''}${it.detail?`<p class="det">${detailHTML(it)}</p>`:''}</div>`:''}
     <div class="tasks">${c.statuses.map((t,slot)=>`<button class="chip" data-id="${esc(it.id)}" data-status="${slot}" aria-pressed="${r.status===slot}">${esc(t)}</button>`).join('')}</div>
     <div class="acts"><button class="memo" data-memo="${esc(it.id)}"><svg class="memoIcon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4H6a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6M8 16h4M8 12h2"/><path d="m12 11 7-7a1.4 1.4 0 0 1 2 2l-7 7-3 1 1-3Zm5-5 2 2"/></svg>${r.memo?'メモを編集':'メモを書く'}</button>${r.memo.trim()?`<button class="memo shareMemoLink" data-share-memo="${esc(it.id)}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 16V3m-4 4 4-4 4 4M6 11H4v10h16V11h-2"/></svg>メモを共有</button>`:''}${it.url?`<a class="link" href="${esc(it.url)}" target="_blank" rel="noopener">公式のお知らせ</a>`:''}</div>
     ${r.memo?`<div class="memoPrev">${esc(r.memo)}</div>`:''}
@@ -79,7 +95,7 @@ function cardHTML(it, b){
 function rowsHTML(rows){
   let html='',day='';
   for(const {it,b} of rows){
-    if(b.key!==day){day=b.key;html+=`<div class="day"><span class="dateLabel">${b.m}/${b.d}（${WD[b.wd]}）</span></div>`;}
+    if(b.key!==day){day=b.key;html+=`<div class="day"><span class="dateLabel"><span class="dateNumber">${b.m}/${b.d}</span> <small class="weekday">${WD[b.wd]}</small></span></div>`;}
     html+=cardHTML(it,b);
   }
   return html;
@@ -105,8 +121,8 @@ function render(){
   const section=(key,title,empty)=>{
     const rows=groups[key], limit=key==='today'?rows.length:visibleLimits[key];
     return `<section class="scheduleSection ${key==='today'?'todaySection':''}" data-section="${key}" aria-labelledby="heading-${key}">
-      <h2 class="sectionTitle" id="heading-${key}">${title}<span class="sectionCount">${rows.length}件</span></h2>
-      ${key==='today'?'<p class="dayRule">TVは朝5時、雑誌は午前0時に切り替わります。</p>':''}
+      <h2 class="sectionTitle" id="heading-${key}"><img class="sectionLogo" src="assets/${key}.png" alt="${title}"><span class="sectionCount">${rows.length}件</span></h2>
+      ${key==='today'?'<p class="dayRule">TVは朝5時、雑誌・配信は午前0時に切り替わります。</p>':''}
       ${rows.length?rowsHTML(rows.slice(0,limit)):`<p class="sectionEmpty ${key==='today' && empty==='今日はおやすみだおー'?'dayoff':''}">${empty}</p>`}
       ${rows.length>limit?`<button class="moreLink quietLink" data-more="${key}">もっと見る（残り${rows.length-limit}件）</button>`:''}
     </section>`;
@@ -209,6 +225,7 @@ function categoryId(raw) {
   const s = raw.trim().toLowerCase();
   if (['tv','テレビ'].includes(s)) return 'tv';
   if (['雑誌','magazine'].includes(s)) return 'magazine';
+  if (['配信','stream','streaming'].includes(s)) return 'stream';
   if (['live','ライブ','stage','舞台'].includes(s)) return 'live';
   return 'other-' + raw.trim();
 }
@@ -219,6 +236,7 @@ function convertRows(rows, s) {
   const ix = names.map(n => head.indexOf(n));
   const timeIndex=head.indexOf('開始時刻');
   const addedIndex=head.indexOf('追加日時');
+  const detailLinksIndex=head.indexOf('メモリンク');
   if (ix.some(i => i < 0)) throw new Error('1行目に必要な列がありません：' + names.filter((n,i) => ix[i]<0).join('、'));
   const categories = (config.categories || []).map(c => ({...c, statuses:[...c.statuses]}));
   const items = [], ids = new Set();
@@ -243,7 +261,8 @@ function convertRows(rows, s) {
       start=dateKey+'T'+tm[1].padStart(2,'0')+':'+tm[2]+':00+09:00';allDay=false;
     }
     const addedAt=addedIndex<0?'':String(r[addedIndex]??'').trim();
-    items.push({id:'sheet:'+sourceKey(s)+':'+id,category,title,start,allDay,detail,addedAt});
+    const detailParts=detailLinksIndex<0?null:parseDetailParts(String(r[detailLinksIndex]??''));
+    items.push({id:'sheet:'+sourceKey(s)+':'+id,category,title,start,allDay,detail,detailParts,addedAt});
   });
   return {categories:categories.filter(c => items.some(it=>it.category===c.id)),items,updatedAt:new Date().toISOString()};
 }

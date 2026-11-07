@@ -217,3 +217,50 @@ html.helpModalOpen{overflow:hidden}
 
 #termsBtn{min-height:44px}
 #termsDlg .helpDialogHeader h1{font-size:18px}
+
+/* Candidate: compact headings, rounded typography, accessible category controls. */
+@font-face{font-family:ZenMaru;src:url('assets/zen-maru-regular.ttf') format('truetype');font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:ZenMaru;src:url('assets/zen-maru-bold.ttf') format('truetype');font-style:normal;font-weight:700 900;font-display:swap}
+body{font-family:ZenMaru,system-ui,sans-serif;background-color:#FAF6EB;background-image:radial-gradient(#deeddb 1px,transparent 1.2px);background-size:19px 19px}
+.logo{display:block;max-width:350px;margin:auto;padding:0;background:none;transform:none}.logo img{display:block;width:100%;height:auto}
+.sub{font-size:10px;font-weight:700;margin:16px 0}.progress{border:0;background:transparent;box-shadow:none;padding:7px 3px;text-align:left;font-size:15px}.bar{height:9px;border-width:1.5px}.bar i{background:#79EB92}
+.tabs{display:flex;flex-wrap:nowrap;gap:6px}.tab{flex:1 1 0;min-width:0;min-height:44px;gap:4px;padding:6px 3px;border:1.5px solid #9d8e82;border-radius:12px;background:#fffdf8;color:#4a3b36;font-size:14px;box-shadow:0 2px 0 #d4c7ba}.tab svg{width:15px;height:15px;flex:0 0 15px}.tab[aria-pressed=true]{background:#e4f1df;color:#205735;border:2px solid #205735;box-shadow:0 2px 0 #a8c4a8;transform:none}.tab[aria-pressed=true]::before{content:'✓';font-size:12px}
+.sectionTitle{padding:5px 12px;min-height:39px;background:#e7f0e3}.sectionLogo{display:block;width:120px;max-width:65%;height:auto;max-height:29px;object-fit:contain;object-position:left center}.sectionCount{font-size:12px}.dayRule{font-size:12px}.dateLabel{font-size:19px;line-height:1.25;font-weight:700}.weekday{font-size:12px;color:#766961;margin-left:3px}.airTime{font-size:16px}
+.card{border:7px solid #f0e9df;outline:2px solid #b4a399;border-radius:16px;background:#fff;box-shadow:2px 3px 0 #d9cbc1;padding:14px;margin-top:4px;margin-bottom:18px}.card.cat-tv{border-color:#e3f1f8;outline-color:#7f9eaa;box-shadow:2px 3px 0 #c2d5d7}.card.cat-magazine{border-color:#f4e8da;outline-color:#b49e87;box-shadow:2px 3px 0 #ddcebf;border-radius:7px 14px 14px 7px}.card.cat-stream{border-color:#f8e6e5;outline-color:#c49998;box-shadow:2px 3px 0 #e7cdca}.card.done{background:#e7f7dc}.ttl{font-size:21px;color:#205735}.tag{border:0;border-radius:5px;padding:3px 8px;font-size:12px}.tagStream{background:#f8e6e5}.tasks{gap:6px}.chip{font-size:12px;min-height:44px;padding:6px 7px;border:1.5px solid #67534a;box-shadow:0 2px 0 #c4b8b1}.chip[data-status="0"][aria-pressed=true],.chip[aria-pressed=true]{background:#dff6d7;color:#205735;border-color:#2d6b43;box-shadow:0 2px 0 #91ba95}.chip[data-status="0"][aria-pressed=true]::before{content:'✓ '}.chip[aria-pressed=true]::before{content:'✓ '}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #205735;outline-offset:3px}
+@media(max-width:350px){.tabs{gap:3px}.tab{font-size:12px;gap:2px;padding-inline:2px}.tab svg{width:13px;height:13px;flex-basis:13px}.chip{font-size:11px;padding-inline:5px}}
+
+.card.cat-tv::after{content:"";position:absolute;bottom:-12px;left:calc(50% - 30px);width:60px;height:4px;border-radius:0 0 5px 5px;background:#7f9eaa}.card.cat-magazine::before{content:"";position:absolute;left:-4px;top:5px;bottom:5px;border-left:1px solid #c4b19d}
+
+/* Strengthen the date numerals; keep the weekday small and unchanged. */
+.dateNumber{-webkit-text-stroke:0.4px currentColor}
+
+/* Footer divider echoes the approved logo. Decorative only. */
+.checkerDivider{display:flex;align-items:center;gap:10px;max-width:100%;height:12px;color:#b3cbb2;margin:30px 2px 0}
+.checkerDivider::before,.checkerDivider::after{content:"";height:1px;flex:1;background:currentColor;opacity:.65}
+.checkerDivider span{display:block;flex:none;width:48px;height:12px;background:conic-gradient(#205735 25%,#faf6eb 0 50%,#4a3b36 0 75%,#faf6eb 0) 0 0 / 12px 12px}
+.checkerDivider+.foot{border-top:0;padding-top:0;margin-top:18px}
+
+/* Preview: latest site update */
+.siteUpdateNotice{display:flex;align-items:center;gap:10px;margin:18px 2px 10px;padding:10px 12px;background:#e6f0e2;border-radius:9px;text-align:left;color:#244e32;font-family:ZenMaru,sans-serif;font-size:13px;font-weight:700;line-height:1.55}.siteUpdateLabel{flex:none;color:#fff;background:#205735;border-radius:5px;padding:3px 6px;font-size:11px;letter-spacing:.02em}.siteUpdateText{min-width:0;overflow-wrap:anywhere}@media(max-width:360px){.siteUpdateNotice{gap:8px;font-size:12px;padding:9px 10px}}
+
+.siteUpdatePart{display:inline-block;white-space:nowrap}
+
+/* Footer: last successful update and refresh share a row. */
+.footerUpdateRow{display:flex;align-items:center;justify-content:center;gap:18px}.footerUpdateRow .note{margin:0}.footerUpdateRow .note:has(.updatedMeta[hidden]){display:none}.footerUpdateRow .updatedMeta:not([hidden]){margin:0}.footerUpdateRow #refreshBtn{white-space:nowrap}.sourceLine,.sourceLine:has(#sourceStatus:not(:empty)){margin:0}.sourceLine:has(#sourceStatus:not(:empty)){margin:4px 0}
+
+/* Compact update notice and a distinct refresh button. */
+.siteUpdateNotice{font-size:12px}
+@media(max-width:360px){.siteUpdateNotice{font-size:11.5px}}
+.footerUpdateRow #refreshBtn{min-height:44px;padding:6px 13px;border:1px solid #765c50;border-radius:9px;background:#fffdf8;box-shadow:0 2px 0 #d5c7bb;text-decoration:none;color:#493a34;font-size:12px;font-weight:700;cursor:pointer}
+.footerUpdateRow #refreshBtn:hover{background:#f1f7ed}
+.footerUpdateRow #refreshBtn:focus-visible{outline:3px solid #205735;outline-offset:3px}
+
+/* Small visual button with a generous touch target. */
+.footerUpdateRow #refreshBtn{position:relative;isolation:isolate;min-height:44px;padding:0 10px;border:0;border-radius:0;background:transparent;box-shadow:none;font-size:11px}
+.footerUpdateRow #refreshBtn::before{content:"";position:absolute;inset:7px 0;z-index:-1;border:1px solid #765c50;border-radius:7px;background:#fffdf8;box-shadow:0 2px 0 #d5c7bb}
+.footerUpdateRow #refreshBtn:hover{background:transparent}
+.footerUpdateRow #refreshBtn:hover::before{background:#f1f7ed}
+/* Public memo links are distinct from the visitor's private notes. */
+.det .detailLink{color:#205735;font-weight:700;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+.det .detailLink:focus-visible{outline:3px solid #205735;outline-offset:3px;border-radius:2px}
